@@ -1,0 +1,61 @@
+{
+  "name": "htslib",
+  "version": "1.19.1",
+  "description": "C library for high-throughput sequencing data formats",
+  "homepage": "https://github.com/samtools/htslib",
+  "license": "MIT",
+  "dependencies": [
+    "pthreads",
+    "zlib"
+  ],
+  "default-features": [
+    "bz2",
+    "lzma"
+  ],
+  "features": {
+    "bz2": {
+      "description": "Enable support for BZ2-compressed CRAM files",
+      "dependencies": [
+        "bzip2"
+      ]
+    },
+    "gcs": {
+      "description": "Enable support for Google Cloud Storage URLs",
+      "dependencies": [
+        {
+          "name": "htslib",
+          "features": [
+            "libcurl"
+          ]
+        }
+      ]
+    },
+    "libcurl": {
+      "description": "Enable libcurl-based support for http/https/etc URLs",
+      "dependencies": [
+        "curl"
+      ]
+    },
+    "lzma": {
+      "description": "Enable support for LZMA-compressed CRAM files",
+      "dependencies": [
+        "liblzma"
+      ]
+    },
+    "plugins": {
+      "description": "Enable support for plugins",
+      "supports": "!windows"
+    },
+    "s3": {
+      "description": "Enable support for Amazon AWS S3 URLs",
+      "dependencies": [
+        {
+          "name": "htslib",
+          "features": [
+            "libcurl"
+          ]
+        }
+      ]
+    }
+  }
+}
