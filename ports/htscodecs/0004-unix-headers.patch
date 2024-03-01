@@ -1,0 +1,58 @@
+diff --git a/htscodecs/arith_dynamic.c b/htscodecs/arith_dynamic.c
+index 37aca77..e3367d3 100644
+--- a/htscodecs/arith_dynamic.c
++++ b/htscodecs/arith_dynamic.c
+@@ -53,10 +53,8 @@
+ #include <stdint.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+-#include <unistd.h>
+ #include <assert.h>
+ #include <string.h>
+-#include <sys/time.h>
+ #include <limits.h>
+ 
+ #include "arith_dynamic.h"
+diff --git a/htscodecs/rANS_static.c b/htscodecs/rANS_static.c
+index e3c34a6..77a44ee 100644
+--- a/htscodecs/rANS_static.c
++++ b/htscodecs/rANS_static.c
+@@ -51,11 +51,9 @@
+ #include <stdint.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+-#include <unistd.h>
+ #include <assert.h>
+ #include <string.h>
+ #include <limits.h>
+-#include <sys/time.h>
+ #ifndef NO_THREADS
+ #include <pthread.h>
+ #endif
+diff --git a/htscodecs/rANS_static4x16pr.c b/htscodecs/rANS_static4x16pr.c
+index c4e6380..8a13f08 100644
+--- a/htscodecs/rANS_static4x16pr.c
++++ b/htscodecs/rANS_static4x16pr.c
+@@ -50,10 +50,8 @@
+ #include <stdint.h>
+ #include <stdlib.h>
+ #include <stdio.h>
+-#include <unistd.h>
+ #include <assert.h>
+ #include <string.h>
+-#include <sys/time.h>
+ #include <limits.h>
+ #include <math.h>
+ 
+diff --git a/htscodecs/tokenise_name3.c b/htscodecs/tokenise_name3.c
+index b57ccd1..2948798 100644
+--- a/htscodecs/tokenise_name3.c
++++ b/htscodecs/tokenise_name3.c
+@@ -90,7 +90,6 @@
+ #include <string.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+-#include <unistd.h>
+ #include <limits.h>
+ #include <ctype.h>
+ #include <assert.h>

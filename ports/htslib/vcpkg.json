@@ -5,6 +5,7 @@
   "homepage": "https://github.com/samtools/htslib",
   "license": "MIT",
   "dependencies": [
+    "htscodecs",
     "pthreads",
     "zlib"
   ],

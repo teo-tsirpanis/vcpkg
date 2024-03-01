@@ -1,0 +1,18 @@
+diff --git a/htscodecs/fqzcomp_qual.c b/htscodecs/fqzcomp_qual.c
+index a5b6687..3a40c20 100644
+--- a/htscodecs/fqzcomp_qual.c
++++ b/htscodecs/fqzcomp_qual.c
+@@ -92,6 +92,13 @@
+ //#include "c_cdf_model.h"
+ //#include "c_cdf16_model.h"
+ 
++// Ensure ssize_t exists within this header. All #includes must precede this,
++// and ssize_t must be undefined again at the end of this header.
++#if defined _MSC_VER && defined _INTPTR_T_DEFINED && !defined _SSIZE_T_DEFINED && !defined ssize_t
++#define HTSLIB_SSIZE_T
++#define ssize_t intptr_t
++#endif
++
+ // An array of 0,0,0, 1,1,1,1, 3, 5,5
+ // is turned into a run-length of 3x0, 4x1, 0x2, 1x4, 0x4, 2x5,
+ // which then becomes 3 4 0 1 0 2.

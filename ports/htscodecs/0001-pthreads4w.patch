@@ -1,0 +1,13 @@
+diff --git a/configure.ac b/configure.ac
+index 7e60be6..c1df630 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -204,7 +204,7 @@ AC_CHECK_HEADERS(fcntl.h limits.h unistd.h malloc.h)
+ AC_CHECK_HEADER(zlib.h)
+ 
+ dnl Checks for library functions.
+-AX_SEARCH_LIBS_REV([pthread_join], [thr pthread])
++AX_SEARCH_LIBS_REV([pthread_join], [thr pthread pthreadVC3 pthreadVC3d])
+ 
+ AC_CONFIG_FILES([Makefile htscodecs/Makefile tests/Makefile])
+ AC_OUTPUT
