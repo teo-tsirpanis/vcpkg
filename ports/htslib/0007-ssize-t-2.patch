@@ -1,0 +1,30 @@
+diff --git a/hfile_internal.h b/hfile_internal.h
+index 2e365ae7..60d24a38 100644
+--- a/hfile_internal.h
++++ b/hfile_internal.h
+@@ -32,6 +32,10 @@ DEALINGS IN THE SOFTWARE.  */
+ 
+ #include "textutils_internal.h"
+ 
++#if defined _MSC_VER && defined _INTPTR_T_DEFINED && !defined _SSIZE_T_DEFINED && !defined ssize_t
++#define ssize_t intptr_t
++#endif
++
+ #ifdef __cplusplus
+ extern "C" {
+ #endif
+diff --git a/hts_internal.h b/hts_internal.h
+index 61956da2..aedb23ad 100644
+--- a/hts_internal.h
++++ b/hts_internal.h
+@@ -29,6 +29,10 @@ DEALINGS IN THE SOFTWARE.  */
+ #include "htslib/hts.h"
+ #include "textutils_internal.h"
+ 
++#if defined _MSC_VER && defined _INTPTR_T_DEFINED && !defined _SSIZE_T_DEFINED && !defined ssize_t
++#define ssize_t intptr_t
++#endif
++
+ #define HTS_MAX_EXT_LEN 9
+ 
+ #ifdef __cplusplus

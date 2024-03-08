@@ -1,0 +1,36 @@
+diff --git a/bgzf.c b/bgzf.c
+index 45fbd3db..f5982657 100644
+--- a/bgzf.c
++++ b/bgzf.c
+@@ -30,7 +30,6 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <errno.h>
+-#include <unistd.h>
+ #include <assert.h>
+ #include <pthread.h>
+ #include <sys/types.h>
+diff --git a/faidx.c b/faidx.c
+index de585144..70928156 100644
+--- a/faidx.c
++++ b/faidx.c
+@@ -33,7 +33,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <inttypes.h>
+ #include <errno.h>
+ #include <limits.h>
+-#include <unistd.h>
+ #include <assert.h>
+ 
+ #include "htslib/bgzf.h"
+diff --git a/hfile.c b/hfile.c
+index 8a878b53..f3c54866 100644
+--- a/hfile.c
++++ b/hfile.c
+@@ -521,7 +521,6 @@ void hclose_abruptly(hFILE *fp)
+ #define HAVE_SETMODE
+ #endif
+ #include <fcntl.h>
+-#include <unistd.h>
+ 
+ /* For Unix, it doesn't matter whether a file descriptor is a socket.
+    However Windows insists on send()/recv() and its own closesocket()

@@ -1,0 +1,21 @@
+diff --git a/hfile.c b/hfile.c
+index 8a878b53..802eaa1b 100644
+--- a/hfile.c
++++ b/hfile.c
+@@ -25,6 +25,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #define HTS_BUILDING_LIBRARY // Enables HTSLIB_EXPORT, see htslib/hts_defs.h
+ #include <config.h>
+ 
++#include <signal.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <stddef.h>
+@@ -734,7 +735,7 @@ static hFILE *hopen_fd_fileuri(const char *url, const char *mode)
+ 
+ static hFILE *hopen_fd_stdinout(const char *mode)
+ {
+-    int fd = (strchr(mode, 'r') != NULL)? STDIN_FILENO : STDOUT_FILENO;
++    int fd = (strchr(mode, 'r') != NULL)? fileno(stdin) : fileno(stdout);
+     char mode_shared[101];
+     snprintf(mode_shared, sizeof mode_shared, "S%s", mode);
+ #if defined HAVE_SETMODE && defined O_BINARY

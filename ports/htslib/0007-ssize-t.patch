@@ -1,0 +1,30 @@
+diff --git a/bgzf.c b/bgzf.c
+index 45fbd3db..dbb19ea0 100644
+--- a/bgzf.c
++++ b/bgzf.c
+@@ -49,6 +49,10 @@
+ #include "cram/pooled_alloc.h"
+ #include "hts_internal.h"
+ 
++#if defined _MSC_VER && defined _INTPTR_T_DEFINED && !defined _SSIZE_T_DEFINED && !defined ssize_t
++#define ssize_t intptr_t
++#endif
++
+ #ifndef EFTYPE
+ #define EFTYPE ENOEXEC
+ #endif
+diff --git a/faidx.c b/faidx.c
+index de585144..0b3176c5 100644
+--- a/faidx.c
++++ b/faidx.c
+@@ -43,6 +43,10 @@ DEALINGS IN THE SOFTWARE.  */
+ #include "htslib/kstring.h"
+ #include "hts_internal.h"
+ 
++#if defined _MSC_VER && defined _INTPTR_T_DEFINED && !defined _SSIZE_T_DEFINED && !defined ssize_t
++#define ssize_t intptr_t
++#endif
++
+ typedef struct {
+     int id; // faidx_t->name[id] is for this struct.
+     uint32_t line_len, line_blen;

@@ -1,0 +1,13 @@
+diff --git a/configure.ac b/configure.ac
+index 49f2cbc7..92cab7e2 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -319,7 +319,7 @@ FAILED.  This error must be resolved in order to build HTSlib successfully.])])
+ zlib_devel=ok
+ dnl Set a trivial non-empty INCLUDES to avoid excess default includes tests
+ AC_CHECK_HEADER([zlib.h], [], [zlib_devel=missing], [;])
+-AC_CHECK_LIB(z, inflate,  [], [zlib_devel=missing])
++AC_SEARCH_LIBS(inflate, [z zlib zlibd],  [], [zlib_devel=missing])
+ 
+ if test $zlib_devel != ok; then
+   MSG_ERROR([zlib development files not found

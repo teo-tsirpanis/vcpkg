@@ -1,0 +1,74 @@
+diff --git a/bcf_sr_sort.c b/bcf_sr_sort.c
+index 01e98bb3..08c6a2bd 100644
+--- a/bcf_sr_sort.c
++++ b/bcf_sr_sort.c
+@@ -26,7 +26,12 @@
+ #include <config.h>
+ 
+ #include <assert.h>
++#if defined _MSC_VER
++#include <string.h>
++#define strdup _strdup
++#else
+ #include <strings.h>
++#endif
+ 
+ #include "bcf_sr_sort.h"
+ #include "htslib/khash_str2int.h"
+diff --git a/errmod.c b/errmod.c
+index df708e1f..4f03800c 100644
+--- a/errmod.c
++++ b/errmod.c
+@@ -26,6 +26,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #define HTS_BUILDING_LIBRARY // Enables HTSLIB_EXPORT, see htslib/hts_defs.h
+ #include <config.h>
+ 
++#define _USE_MATH_DEFINES
+ #include <math.h>
+ #include "htslib/hts.h"
+ #include "htslib/ksort.h"
+diff --git a/header.c b/header.c
+index 5161034f..40db8c12 100644
+--- a/header.c
++++ b/header.c
+@@ -32,6 +32,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include <config.h>
+ 
+ #include <string.h>
++#if defined _MSC_VER
++#define strdup _strdup
++#endif
++
+ #include <assert.h>
+ #include <errno.h>
+ #include "textutils_internal.h"
+diff --git a/kfunc.c b/kfunc.c
+index bf15cdf3..aee7476e 100644
+--- a/kfunc.c
++++ b/kfunc.c
+@@ -27,6 +27,7 @@
+ #define HTS_BUILDING_LIBRARY // Enables HTSLIB_EXPORT, see htslib/hts_defs.h
+ #include <config.h>
+ 
++#define _USE_MATH_DEFINES
+ #include <math.h>
+ #include <stdlib.h>
+ #include <stdint.h>
+diff --git a/kstring.c b/kstring.c
+index 958d2ef0..9f5df4ad 100644
+--- a/kstring.c
++++ b/kstring.c
+@@ -35,6 +35,13 @@
+ #include <math.h>
+ #include "htslib/kstring.h"
+ 
++// Ensure ssize_t exists within this header. All #includes must precede this,
++// and ssize_t must be undefined again at the end of this header.
++#if defined _MSC_VER && defined _INTPTR_T_DEFINED && !defined _SSIZE_T_DEFINED && !defined ssize_t
++#define HTSLIB_SSIZE_T
++#define ssize_t intptr_t
++#endif
++
+ int kputd(double d, kstring_t *s) {
+ 	int len = 0;
+ 	char buf[21], *cp = buf+20, *ep;
