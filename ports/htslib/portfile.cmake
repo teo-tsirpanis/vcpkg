@@ -1,3 +1,9 @@
+if(VCPKG_TARGET_IS_WINDOWS AND NOT VCPKG_TARGET_IS_MINGW)
+    set(PATCH_PCRE2 "0011-pcre2-windows.patch")
+else()
+    set(PATCH_PCRE2)
+endif()
+
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO samtools/htslib
@@ -9,17 +15,20 @@ vcpkg_from_github(
         0002-fix-log-check.patch
         0003-fix-compile-errors.patch
         0004-ssize-max.patch
-        0005-remove-unistd.patch
         0006-pthread.patch
         0007-ssize-t-2.patch
         0008-static-sized-arrays.patch
         0009-stddef-h.patch
         0010-hfile.patch
+        ${PATCH_PCRE2}
+        0012-include-strings-h.patch
+        0013-unistd-h.patch
+        0014-time-h.patch
+        0015-r-ok.patch
+        0016-cli-patches.patch
+        0017-cram-ssize-t.patch
+        0018-no-tests.patch
 )
-
-if(VCPKG_TARGET_IS_WINDOWS AND NOT VCPKG_TARGET_IS_MINGW)
-    file(COPY "${CMAKE_CURRENT_LIST_DIR}/strings.h" DESTINATION "${SOURCE_PATH}")
-endif()
 
 set(CONFIG_OPTIONS)
 

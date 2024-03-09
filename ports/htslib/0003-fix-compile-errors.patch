@@ -1,20 +1,3 @@
-diff --git a/bcf_sr_sort.c b/bcf_sr_sort.c
-index 01e98bb3..08c6a2bd 100644
---- a/bcf_sr_sort.c
-+++ b/bcf_sr_sort.c
-@@ -26,7 +26,12 @@
- #include <config.h>
- 
- #include <assert.h>
-+#if defined _MSC_VER
-+#include <string.h>
-+#define strdup _strdup
-+#else
- #include <strings.h>
-+#endif
- 
- #include "bcf_sr_sort.h"
- #include "htslib/khash_str2int.h"
 diff --git a/errmod.c b/errmod.c
 index df708e1f..4f03800c 100644
 --- a/errmod.c

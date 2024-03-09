@@ -1,0 +1,12 @@
+diff --git a/hts_internal.h b/hts_internal.h
+index 60f600a0..c1414bf1 100644
+--- a/hts_internal.h
++++ b/hts_internal.h
+@@ -31,6 +31,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #define strdup _strdup
+ #define strcasecmp _stricmp
+ #define strncasecmp _strnicmp
++#define R_OK 4
+ #else
+ #include <strings.h>
+ #endif

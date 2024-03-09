@@ -5,7 +5,13 @@
   "homepage": "https://github.com/samtools/htslib",
   "license": "MIT",
   "dependencies": [
+    "getopt",
     "htscodecs",
+    {
+      "name": "pcre2",
+      "default-features": false,
+      "platform": "windows & !mingw"
+    },
     "pthreads",
     "zlib"
   ],

@@ -1,0 +1,52 @@
+diff --git a/bgzip.c b/bgzip.c
+index bf1e1f60..d01acd33 100644
+--- a/bgzip.c
++++ b/bgzip.c
+@@ -65,7 +65,7 @@ static int confirm_overwrite(const char *fn)
+     int save_errno = errno;
+     int ret = 0;
+ 
+-    if (isatty(STDIN_FILENO)) {
++    if (isatty(_fileno(stdin))) {
+         fprintf(stderr, "[bgzip] %s already exists; do you wish to overwrite (y or n)? ", fn);
+         if (ask_yn()) ret = 1;
+     }
+@@ -94,7 +94,7 @@ static int confirm_filename(int *is_forced, const char *name, const char *ext)
+         return 1;
+     }
+ 
+-    if (!isatty(STDIN_FILENO))
++    if (!isatty(_fileno(stdin)))
+         return 0;
+ 
+     fprintf(stderr, "[bgzip] .%s is not a known extension; do you wish to decompress to %s (y or n)? ", ext, name);
+diff --git a/htsfile.c b/htsfile.c
+index 9af4ae31..d0bb8cb7 100644
+--- a/htsfile.c
++++ b/htsfile.c
+@@ -37,6 +37,10 @@ DEALINGS IN THE SOFTWARE.  */
+ #include "htslib/sam.h"
+ #include "htslib/vcf.h"
+ 
++#if defined _MSC_VER && defined _INTPTR_T_DEFINED && !defined _SSIZE_T_DEFINED && !defined ssize_t
++#define ssize_t intptr_t
++#endif
++
+ #ifndef EFTYPE
+ #define EFTYPE ENOEXEC
+ #endif
+diff --git a/tabix.c b/tabix.c
+index 78845b2c..2c6d244e 100644
+--- a/tabix.c
++++ b/tabix.c
+@@ -43,6 +43,10 @@ DEALINGS IN THE SOFTWARE.  */
+ #include "htslib/hts_defs.h"
+ #include "htslib/hts_log.h"
+ 
++#if defined _MSC_VER && defined _INTPTR_T_DEFINED && !defined _SSIZE_T_DEFINED && !defined ssize_t
++#define ssize_t intptr_t
++#endif
++
+ typedef struct
+ {
+     char *regions_fname, *targets_fname;

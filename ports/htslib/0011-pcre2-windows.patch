@@ -1,0 +1,26 @@
+diff --git a/configure.ac b/configure.ac
+index 49f2cbc7..a92e56d3 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -565,7 +565,7 @@ dnl Only need to add to static_LIBS if not building as a plugin
+ fi
+ 
+ dnl Look for regcomp in various libraries (needed on windows/mingw).
+-AC_SEARCH_LIBS(regcomp, regex, [libregex=needed], [])
++AC_SEARCH_LIBS(regcomp, pcre2-posix, [libregex=needed], [], [-lpcre2-8])
+ 
+ dnl Look for PTHREAD_MUTEX_RECURSIVE.
+ dnl This is normally in pthread.h except on some broken glibc implementations.
+diff --git a/hts_expr.c b/hts_expr.c
+index 5e5a132e..618848f5 100644
+--- a/hts_expr.c
++++ b/hts_expr.c
+@@ -34,7 +34,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <stdlib.h>
+ #include <stdint.h>
+ #include <float.h>
+-#include <regex.h>
++#include <pcre2posix.h>
+ #include <math.h>
+ 
+ #include "htslib/hts_expr.h"

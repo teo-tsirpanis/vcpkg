@@ -1,0 +1,56 @@
+diff --git a/thread_pool.c b/thread_pool.c
+index f80c5354..7908b507 100644
+--- a/thread_pool.c
++++ b/thread_pool.c
+@@ -33,7 +33,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <errno.h>
+ #include <stdio.h>
+ #include <string.h>
+-#include <sys/time.h>
++#include <time.h>
+ #include <assert.h>
+ #include <stdarg.h>
+ #include <limits.h>
+@@ -222,12 +222,10 @@ hts_tpool_result *hts_tpool_next_result_wait(hts_tpool_process *q) {
+     pthread_mutex_lock(&q->p->pool_m);
+     while (!(r = hts_tpool_next_result_locked(q))) {
+         /* Possible race here now avoided via _locked() call, but in case... */
+-        struct timeval now;
+         struct timespec timeout;
+ 
+-        gettimeofday(&now, NULL);
+-        timeout.tv_sec = now.tv_sec + 10;
+-        timeout.tv_nsec = now.tv_usec * 1000;
++        timespec_get(&timeout, TIME_UTC);
++        timeout.tv_sec += 10;
+ 
+         q->ref_count++;
+         if (q->shutdown) {
+@@ -963,13 +961,11 @@ int hts_tpool_process_flush(hts_tpool_process *q) {
+ 
+     // Wait for n_input and n_processing to hit zero.
+     while (!q->shutdown && (q->n_input || q->n_processing)) {
+-        struct timeval now;
+         struct timespec timeout;
+ 
+         while (q->n_input && !q->shutdown) {
+-            gettimeofday(&now, NULL);
+-            timeout.tv_sec = now.tv_sec + 1;
+-            timeout.tv_nsec = now.tv_usec * 1000;
++            timespec_get(&timeout, TIME_UTC);
++            timeout.tv_sec++;
+             pthread_cond_timedwait(&q->input_empty_c, &p->pool_m, &timeout);
+         }
+ 
+@@ -977,9 +973,8 @@ int hts_tpool_process_flush(hts_tpool_process *q) {
+         // q->n_processing is zero as we cannot terminate while things are
+         // running otherwise we free up the data being worked on.
+         while (q->n_processing) {
+-            gettimeofday(&now, NULL);
+-            timeout.tv_sec = now.tv_sec + 1;
+-            timeout.tv_nsec = now.tv_usec * 1000;
++            timespec_get(&timeout, TIME_UTC);
++            timeout.tv_sec++;
+             pthread_cond_timedwait(&q->none_processing_c, &p->pool_m,
+                                    &timeout);
+         }

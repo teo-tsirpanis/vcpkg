@@ -1,0 +1,156 @@
+diff --git a/annot-tsv.c b/annot-tsv.c
+index 3610d883..fe53b2e2 100644
+--- a/annot-tsv.c
++++ b/annot-tsv.c
+@@ -30,7 +30,6 @@
+ 
+ #include <config.h>
+ 
+-#include <unistd.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <getopt.h>
+diff --git a/bgzf.c b/bgzf.c
+index 45fbd3db..f5982657 100644
+--- a/bgzf.c
++++ b/bgzf.c
+@@ -30,7 +30,6 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <errno.h>
+-#include <unistd.h>
+ #include <assert.h>
+ #include <pthread.h>
+ #include <sys/types.h>
+diff --git a/bgzip.c b/bgzip.c
+index 4916d971..bf1e1f60 100644
+--- a/bgzip.c
++++ b/bgzip.c
+@@ -28,7 +28,6 @@
+ #include <string.h>
+ #include <stdio.h>
+ #include <fcntl.h>
+-#include <unistd.h>
+ #include <errno.h>
+ #include <stdarg.h>
+ #include <getopt.h>
+diff --git a/cram/cram_io.c b/cram/cram_io.c
+index c3efb735..f2800478 100644
+--- a/cram/cram_io.c
++++ b/cram/cram_io.c
+@@ -47,7 +47,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include <assert.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <unistd.h>
+ #include <zlib.h>
+ #ifdef HAVE_LIBBZ2
+ #include <bzlib.h>
+diff --git a/cram/mFILE.c b/cram/mFILE.c
+index 3ecdca39..b88e6203 100644
+--- a/cram/mFILE.c
++++ b/cram/mFILE.c
+@@ -38,7 +38,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <fcntl.h>
+-#include <unistd.h>
+ #include <stdarg.h>
+ 
+ #include "../htslib/hts_log.h"
+diff --git a/cram/open_trace_file.c b/cram/open_trace_file.c
+index 4d617b73..00534afc 100644
+--- a/cram/open_trace_file.c
++++ b/cram/open_trace_file.c
+@@ -67,7 +67,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include <stdlib.h>
+ #include <stdio.h>
+ #include <string.h>
+-#include <unistd.h>
+ #include <limits.h>
+ #include <errno.h>
+ #include <sys/types.h>
+diff --git a/faidx.c b/faidx.c
+index de585144..70928156 100644
+--- a/faidx.c
++++ b/faidx.c
+@@ -33,7 +33,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <inttypes.h>
+ #include <errno.h>
+ #include <limits.h>
+-#include <unistd.h>
+ #include <assert.h>
+ 
+ #include "htslib/bgzf.h"
+diff --git a/hfile.c b/hfile.c
+index 802eaa1b..c7b273db 100644
+--- a/hfile.c
++++ b/hfile.c
+@@ -522,7 +522,6 @@ void hclose_abruptly(hFILE *fp)
+ #define HAVE_SETMODE
+ #endif
+ #include <fcntl.h>
+-#include <unistd.h>
+ 
+ /* For Unix, it doesn't matter whether a file descriptor is a socket.
+    However Windows insists on send()/recv() and its own closesocket()
+diff --git a/hts.c b/hts.c
+index b1c77338..530850d7 100644
+--- a/hts.c
++++ b/hts.c
+@@ -30,7 +30,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <stdio.h>
+ #include <string.h>
+ #include <stdlib.h>
+-#include <unistd.h>
+ #include <inttypes.h>
+ #include <limits.h>
+ #include <stdint.h>
+diff --git a/sam.c b/sam.c
+index f24e7664..3d870cfe 100644
+--- a/sam.c
++++ b/sam.c
+@@ -34,7 +34,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <assert.h>
+ #include <signal.h>
+ #include <inttypes.h>
+-#include <unistd.h>
+ 
+ #ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
+ #include "fuzz_settings.h"
+diff --git a/synced_bcf_reader.c b/synced_bcf_reader.c
+index 331650cd..3eae0a8d 100644
+--- a/synced_bcf_reader.c
++++ b/synced_bcf_reader.c
+@@ -27,7 +27,6 @@ DEALINGS IN THE SOFTWARE.  */
+ 
+ #include <assert.h>
+ #include <stdio.h>
+-#include <unistd.h>
+ #include <string.h>
+ #include <limits.h>
+ #include <inttypes.h>
+diff --git a/tabix.c b/tabix.c
+index 9057cdfe..78845b2c 100644
+--- a/tabix.c
++++ b/tabix.c
+@@ -28,7 +28,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <assert.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+-#include <unistd.h>
+ #include <string.h>
+ #include <getopt.h>
+ #include <sys/types.h>
+diff --git a/thread_pool.c b/thread_pool.c
+index 252a9d24..f80c5354 100644
+--- a/thread_pool.c
++++ b/thread_pool.c
+@@ -36,7 +36,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <sys/time.h>
+ #include <assert.h>
+ #include <stdarg.h>
+-#include <unistd.h>
+ #include <limits.h>
+ 
+ #include "thread_pool_internal.h"

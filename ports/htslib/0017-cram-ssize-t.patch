@@ -1,0 +1,15 @@
+diff --git a/cram/open_trace_file.c b/cram/open_trace_file.c
+index 00534afc..930ccf51 100644
+--- a/cram/open_trace_file.c
++++ b/cram/open_trace_file.c
+@@ -83,6 +83,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include "../htslib/hts_log.h"
+ #include "../htslib/hts.h"
+ 
++#if defined _MSC_VER && defined _INTPTR_T_DEFINED && !defined _SSIZE_T_DEFINED && !defined ssize_t
++#define ssize_t intptr_t
++#endif
++
+ /*
+  * Returns whether the path refers to a regular file.
+  */
