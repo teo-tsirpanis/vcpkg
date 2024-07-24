@@ -1,0 +1,13 @@
+diff --git a/htscodecs/Makefile.am b/htscodecs/Makefile.am
+index e4a347d..454e51f 100644
+--- a/htscodecs/Makefile.am
++++ b/htscodecs/Makefile.am
+@@ -88,7 +88,7 @@ librANS_static32x16pr_avx512_la_CFLAGS = @MAVX512@
+ libhtscodecs_la_LIBADD += librANS_static32x16pr_avx512.la
+ endif
+ 
+-libhtscodecs_la_LDFLAGS = -version-info @VERS_CURRENT@:@VERS_REVISION@:@VERS_AGE@ 
++libhtscodecs_la_LDFLAGS = -version-info @VERS_CURRENT@:@VERS_REVISION@:@VERS_AGE@ -no-undefined
+ libhtscodecs_la_LIBADD += -lm
+ 
+ # Fuzz testing version of the library.  This is build using -fsanitize=fuzzer

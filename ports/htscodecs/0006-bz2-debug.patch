@@ -1,0 +1,14 @@
+diff --git a/configure.ac b/configure.ac
+index c1df630..62795b1 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -97,8 +97,7 @@ AC_ARG_ENABLE([bz2],
+ 
+ if test "$enable_bz2" != no; then
+   bz2_devel=ok
+-  AC_CHECK_LIB([bz2], [BZ2_bzBuffToBuffCompress], [
+-	LIBS="-lbz2 $LIBS"
++  AC_SEARCH_LIBS([BZ2_bzBuffToBuffCompress], [bz2 bz2d], [
+ 	AC_DEFINE([HAVE_LIBBZ2],1,[Define to 1 if you have the libbz2 library.])], [bz2_devel=missing])
+   if test "$bz2_devel" != "ok"; then
+     AC_MSG_ERROR([libbzip2 development files not found.

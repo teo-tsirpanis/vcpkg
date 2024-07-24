@@ -6,6 +6,11 @@ vcpkg_from_github(
     HEAD_REF master
     PATCHES
         0001-no-tests.patch # https://github.com/samtools/htscodecs/pull/120
+        0002-pthreads4w.patch
+        0003-ssize-t.patch
+        0004-unix-headers.patch
+        0005-no-undefined.patch
+        0006-bz2-debug.patch
 )
 
 set(FEATURE_OPTIONS "")
@@ -28,9 +33,6 @@ vcpkg_configure_make(
 )
 
 vcpkg_install_make()
-
-file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share")
-
-vcpkg_fixup_pkgconfig()
+vcpkg_copy_pdbs()
 
 vcpkg_install_copyright(FILE_LIST "${SOURCE_PATH}/LICENSE.md")
