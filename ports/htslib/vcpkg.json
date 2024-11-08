@@ -4,9 +4,15 @@
   "description": "C library for high-throughput sequencing data formats",
   "homepage": "https://github.com/samtools/htslib",
   "license": "MIT",
-  "supports": "!windows",
   "dependencies": [
+    "getopt",
     "htscodecs",
+    {
+      "name": "pcre2",
+      "default-features": false,
+      "platform": "windows & !mingw"
+    },
+    "pthreads",
     "zlib"
   ],
   "features": {

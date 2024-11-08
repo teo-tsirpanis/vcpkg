@@ -1,0 +1,140 @@
+diff --git a/annot-tsv.c b/annot-tsv.c
+index 4661e6e0..3610d883 100644
+--- a/annot-tsv.c
++++ b/annot-tsv.c
+@@ -36,7 +36,6 @@
+ #include <getopt.h>
+ #include <assert.h>
+ #include <string.h>
+-#include <strings.h>
+ #include "htslib/hts.h"
+ #include "htslib/hts_defs.h"
+ #include "htslib/khash_str2int.h"
+diff --git a/bcf_sr_sort.c b/bcf_sr_sort.c
+index 01e98bb3..786d2656 100644
+--- a/bcf_sr_sort.c
++++ b/bcf_sr_sort.c
+@@ -26,7 +26,6 @@
+ #include <config.h>
+ 
+ #include <assert.h>
+-#include <strings.h>
+ 
+ #include "bcf_sr_sort.h"
+ #include "htslib/khash_str2int.h"
+diff --git a/bgzip.c b/bgzip.c
+index e7caa783..4916d971 100644
+--- a/bgzip.c
++++ b/bgzip.c
+@@ -26,7 +26,6 @@
+ 
+ #include <stdlib.h>
+ #include <string.h>
+-#include <strings.h>
+ #include <stdio.h>
+ #include <fcntl.h>
+ #include <unistd.h>
+diff --git a/cram/cram_encode.c b/cram/cram_encode.c
+index 9651abde..bb94e2aa 100644
+--- a/cram/cram_encode.c
++++ b/cram/cram_encode.c
+@@ -36,7 +36,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include <assert.h>
+ #include <stdlib.h>
+ #include <string.h>
+-#include <strings.h>
+ #include <zlib.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+diff --git a/hts.c b/hts.c
+index b361e7cf..b1c77338 100644
+--- a/hts.c
++++ b/hts.c
+@@ -29,7 +29,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <zlib.h>
+ #include <stdio.h>
+ #include <string.h>
+-#include <strings.h>
+ #include <stdlib.h>
+ #include <unistd.h>
+ #include <inttypes.h>
+diff --git a/hts_internal.h b/hts_internal.h
+index ac595125..60f600a0 100644
+--- a/hts_internal.h
++++ b/hts_internal.h
+@@ -26,6 +26,15 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <stddef.h>
+ #include <ctype.h>
+ 
++#if defined _MSC_VER
++#include <string.h>
++#define strdup _strdup
++#define strcasecmp _stricmp
++#define strncasecmp _strnicmp
++#else
++#include <strings.h>
++#endif
++
+ #include "htslib/hts.h"
+ #include "textutils_internal.h"
+ 
+diff --git a/regidx.c b/regidx.c
+index 602edebf..0cf2b8ac 100644
+--- a/regidx.c
++++ b/regidx.c
+@@ -24,7 +24,6 @@
+ 
+ #define HTS_BUILDING_LIBRARY // Enables HTSLIB_EXPORT, see htslib/hts_defs.h
+ #include <config.h>
+-#include <strings.h>
+ #include <assert.h>
+ #include "htslib/hts.h"
+ #include "htslib/kstring.h"
+diff --git a/sam.c b/sam.c
+index 82b3b934..f24e7664 100644
+--- a/sam.c
++++ b/sam.c
+@@ -26,7 +26,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #define HTS_BUILDING_LIBRARY // Enables HTSLIB_EXPORT, see htslib/hts_defs.h
+ #include <config.h>
+ 
+-#include <strings.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <string.h>
+diff --git a/synced_bcf_reader.c b/synced_bcf_reader.c
+index a43ab15a..331650cd 100644
+--- a/synced_bcf_reader.c
++++ b/synced_bcf_reader.c
+@@ -29,7 +29,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <stdio.h>
+ #include <unistd.h>
+ #include <string.h>
+-#include <strings.h>
+ #include <limits.h>
+ #include <inttypes.h>
+ #include <errno.h>
+diff --git a/tabix.c b/tabix.c
+index e20c0feb..9057cdfe 100644
+--- a/tabix.c
++++ b/tabix.c
+@@ -30,7 +30,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <stdlib.h>
+ #include <unistd.h>
+ #include <string.h>
+-#include <strings.h>
+ #include <getopt.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+diff --git a/vcf.c b/vcf.c
+index abf90f9c..c0e332e1 100644
+--- a/vcf.c
++++ b/vcf.c
+@@ -30,7 +30,6 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <stdio.h>
+ #include <assert.h>
+ #include <string.h>
+-#include <strings.h>
+ #include <stdlib.h>
+ #include <limits.h>
+ #include <stdint.h>

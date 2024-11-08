@@ -10,6 +10,21 @@ vcpkg_from_github(
         0003-no-tests.patch
         0004-fix-find-htscodecs.patch
         0005-remove-duplicate-lhts.patch # https://github.com/samtools/htslib/pull/1852
+        0001-fix-zlib-name.patch
+        0002-fix-log-check.patch
+        0003-fix-compile-errors.patch
+        0004-ssize-max.patch
+        0006-pthread.patch
+        0007-ssize-t.patch
+        0008-static-sized-arrays.patch
+        0009-stddef-h.patch
+        0010-hfile.patch
+        0011-pcre2-windows.patch
+        0012-include-strings-h.patch
+        0013-unistd-h.patch
+        0014-time-h.patch
+        0015-r-ok.patch
+        0016-cli-patches.patch
 )
 
 set(FEATURE_OPTIONS "")

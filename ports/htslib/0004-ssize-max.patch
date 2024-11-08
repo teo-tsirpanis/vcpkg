@@ -1,0 +1,44 @@
+diff --git a/header.c b/header.c
+index 5161034f..0d6a2ac8 100644
+--- a/header.c
++++ b/header.c
+@@ -37,6 +37,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include "textutils_internal.h"
+ #include "header.h"
+ 
++#ifndef SSIZE_MAX /* SSIZE_MAX is POSIX 1 */
++#ifdef WIN32
++    #ifdef _WIN64
++        #define SSIZE_MAX _I64_MAX
++    #else
++        #define SSIZE_MAX _I32_MAX
++    #endif
++#else
++    #define SSIZE_MAX LONG_MAX
++#endif
++#endif
++
+ // Hash table for removing multiple lines from the header
+ KHASH_SET_INIT_STR(rm)
+ // Used for long refs in SAM files
+diff --git a/hfile.c b/hfile.c
+index 8a878b53..df517189 100644
+--- a/hfile.c
++++ b/hfile.c
+@@ -56,7 +56,15 @@ DEALINGS IN THE SOFTWARE.  */
+ #endif
+ 
+ #ifndef SSIZE_MAX /* SSIZE_MAX is POSIX 1 */
+-#define SSIZE_MAX LONG_MAX
++#ifdef WIN32
++    #ifdef _WIN64
++        #define SSIZE_MAX _I64_MAX
++    #else
++        #define SSIZE_MAX _I32_MAX
++    #endif
++#else
++    #define SSIZE_MAX LONG_MAX
++#endif
+ #endif
+ 
+ /* hFILE fields are used as follows:

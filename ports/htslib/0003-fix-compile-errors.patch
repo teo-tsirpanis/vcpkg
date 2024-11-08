@@ -1,0 +1,24 @@
+diff --git a/errmod.c b/errmod.c
+index df708e1f..4f03800c 100644
+--- a/errmod.c
++++ b/errmod.c
+@@ -26,6 +26,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #define HTS_BUILDING_LIBRARY // Enables HTSLIB_EXPORT, see htslib/hts_defs.h
+ #include <config.h>
+ 
++#define _USE_MATH_DEFINES
+ #include <math.h>
+ #include "htslib/hts.h"
+ #include "htslib/ksort.h"
+diff --git a/kfunc.c b/kfunc.c
+index bf15cdf3..aee7476e 100644
+--- a/kfunc.c
++++ b/kfunc.c
+@@ -27,6 +27,7 @@
+ #define HTS_BUILDING_LIBRARY // Enables HTSLIB_EXPORT, see htslib/hts_defs.h
+ #include <config.h>
+ 
++#define _USE_MATH_DEFINES
+ #include <math.h>
+ #include <stdlib.h>
+ #include <stdint.h>

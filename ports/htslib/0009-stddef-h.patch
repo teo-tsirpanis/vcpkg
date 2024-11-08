@@ -1,0 +1,12 @@
+diff --git a/hfile_internal.h b/hfile_internal.h
+index 60d24a38..ab03b1b5 100644
+--- a/hfile_internal.h
++++ b/hfile_internal.h
+@@ -26,6 +26,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #define HFILE_INTERNAL_H
+ 
+ #include <stdarg.h>
++#include <stddef.h>
+ 
+ #include "htslib/hts_defs.h"
+ #include "htslib/hfile.h"
