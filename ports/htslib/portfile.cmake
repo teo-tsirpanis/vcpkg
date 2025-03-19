@@ -9,7 +9,6 @@ vcpkg_from_github(
         0002-pthread-flag.patch
         0003-no-tests.patch
         0004-fix-find-htscodecs.patch
-        0005-remove-duplicate-lhts.patch # https://github.com/samtools/htslib/pull/1852
         0001-fix-zlib-name.patch
         0002-fix-log-check.patch
         0003-fix-compile-errors.patch
