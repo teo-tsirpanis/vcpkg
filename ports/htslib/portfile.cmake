@@ -24,6 +24,7 @@ vcpkg_from_github(
         0014-time-h.patch
         0015-r-ok.patch
         0016-cli-patches.patch
+        0017-dll.patch
 )
 
 set(FEATURE_OPTIONS "")

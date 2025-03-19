@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index ef9b5a9..f51c802 100644
+--- a/Makefile
++++ b/Makefile
+@@ -393,7 +393,7 @@ cyghts-$(LIBHTS_SOVERSION).dll libhts.dll.a: $(LIBHTS_OBJS)
+ 	$(CC) -shared -Wl,--out-implib=libhts.dll.a -Wl,--enable-auto-import $(LDFLAGS) -o $@ -Wl,--whole-archive $(LIBHTS_OBJS) -Wl,--no-whole-archive $(LIBS) $(PTHREAD)
+ 
+ hts-$(LIBHTS_SOVERSION).dll hts.dll.a: $(LIBHTS_OBJS)
+-	$(CC) -shared -Wl,--out-implib=hts.dll.a -Wl,--enable-auto-import -Wl,--exclude-all-symbols $(LDFLAGS) -o $@ -Wl,--whole-archive $(LIBHTS_OBJS) -Wl,--no-whole-archive $(LIBS) $(PTHREAD)
++	$(CC) -shared -Wl,-dll -Wl,--out-implib=hts.dll.a -Wl,--enable-auto-import -Wl,--exclude-all-symbols $(LDFLAGS) -o $@ -Wl,--whole-archive $(LIBHTS_OBJS) -Wl,--no-whole-archive $(LIBS) $(PTHREAD)
+ 
+ hts-$(LIBHTS_SOVERSION).def: hts-$(LIBHTS_SOVERSION).dll
+ 	gendef hts-$(LIBHTS_SOVERSION).dll
