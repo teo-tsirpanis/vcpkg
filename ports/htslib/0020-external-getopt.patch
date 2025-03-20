@@ -1,0 +1,27 @@
+diff --git a/configure.ac b/configure.ac
+index 04a600c..5d1e532 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -240,6 +240,12 @@ AC_ARG_WITH([external-htscodecs],
+   [], [with_external_htscodecs=no])
+ AC_SUBST(with_external_htscodecs)
+ 
++AC_ARG_WITH([external-getopt],
++  [AS_HELP_STRING([--with-external-getopt],
++                  [get getopt functions from a shared library])],
++  [], [with_external_getopt=no])
++AC_SUBST(with_external_getopt)
++
+ AC_ARG_WITH([libdeflate],
+   [AS_HELP_STRING([--with-libdeflate],
+                   [use libdeflate for faster crc and deflate algorithms])],
+@@ -506,6 +512,9 @@ You have an incomplete distribution.  Please try downloading one of the
+ official releases from https://www.htslib.org
+ ])])])])
+ 
++AS_IF([test "x$with_external_getopt" != "xno"],
++  [LIBS="-lgetopt $LIBS"])
++
+ AS_IF([test "x$with_libdeflate" != "xno"],
+   [libdeflate=ok
+    AC_CHECK_HEADER([libdeflate.h],[],[libdeflate='missing header'],[;])

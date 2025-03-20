@@ -26,6 +26,7 @@ vcpkg_from_github(
         0017-dll.patch
         0018-hts-os.patch
         0019-dirent.patch
+        0020-external-getopt.patch
 )
 
 set(FEATURE_OPTIONS "")
@@ -48,9 +49,13 @@ else()
     list(APPEND FEATURE_OPTIONS "--without-libdeflate")
 endif()
 
+if (VCPKG_TARGET_IS_WINDOWS AND NOT VCPKG_TARGET_IS_MINGW)
+    list(APPEND FEATURE_OPTIONS "--with-external-getopt")
+endif()
+
 vcpkg_configure_make(
-    AUTOCONFIG
     SOURCE_PATH "${SOURCE_PATH}"
+    AUTOCONFIG
     OPTIONS
         --with-external-htscodecs
         --disable-libcurl
