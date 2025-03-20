@@ -8,8 +8,11 @@
     "getopt",
     "htscodecs",
     {
-      "name": "pcre2",
+      "name": "htslib",
       "default-features": false,
+      "features": [
+        "pcre2"
+      ],
       "platform": "windows & !mingw"
     },
     "pthreads",
@@ -32,6 +35,15 @@
       "description": "Enable support for LZMA-compressed CRAM files",
       "dependencies": [
         "liblzma"
+      ]
+    },
+    "pcre2": {
+      "description": "Enable support for PCRE2 regex",
+      "dependencies": [
+        {
+          "name": "pcre2",
+          "default-features": false
+        }
       ]
     }
   }

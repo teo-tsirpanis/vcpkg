@@ -1,0 +1,61 @@
+diff --git a/configure.ac b/configure.ac
+index 87e928d..04a600c 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -269,6 +269,11 @@ AC_ARG_ENABLE([s3],
+                   [support Amazon AWS S3 URLs])],
+   [], [enable_s3=check])
+ 
++AC_ARG_ENABLE([pcre2],
++  [AS_HELP_STRING([--enable-pcre2],
++                  [use PCRE2 for regex support])],
++  [], [enable_pcre2=no])
++
+ basic_host=${host_alias:-unknown-`uname -s`}
+ AC_MSG_CHECKING([shared library type for $basic_host])
+ case $basic_host in
+@@ -593,6 +598,18 @@ in HTSlib.  Configure with --enable-libcurl in order to use S3 URLs.])
+   fi
+ fi
+ 
++AS_IF([test "x$enable_pcre2" != xno],
++  [PKG_CHECK_MODULES([PCRE2], [libpcre2-posix], [
++    CFLAGS="$CFLAGS $PCRE2_CFLAGS"
++    LIBS="$LIBS $PCRE2_LIBS"
++    static_LIBS="$static_LIBS $PCRE2_LIBS"
++    pc_requires="$pc_requires libpcre2-posix"
++    AC_DEFINE([HAVE_PCRE2], 1, [Define if HTSlib should enable PCRE2 support.])
++  ], [])],
++  [dnl Look for regcomp in various libraries (needed on windows/mingw).
++  AC_SEARCH_LIBS(regcomp, regex, [libregex=needed], [])]
++)
++
+ CRYPTO_LIBS=
+ if test $need_crypto != no; then
+   AC_CHECK_FUNC([CCHmac],
+@@ -625,9 +642,6 @@ dnl Only need to add to static_LIBS if not building as a plugin
+   fi
+ fi
+ 
+-dnl Look for regcomp in various libraries (needed on windows/mingw).
+-AC_SEARCH_LIBS(regcomp, regex, [libregex=needed], [])
+-
+ dnl Look for PTHREAD_MUTEX_RECURSIVE.
+ dnl This is normally in pthread.h except on some broken glibc implementations.
+ dnl Now set by default
+diff --git a/hts_expr.c b/hts_expr.c
+index dfd15b1..7fa94f3 100644
+--- a/hts_expr.c
++++ b/hts_expr.c
+@@ -34,7 +34,11 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <stdlib.h>
+ #include <stdint.h>
+ #include <float.h>
++#ifdef HAVE_PCRE2
++#include <pcre2posix.h>
++#else
+ #include <regex.h>
++#endif
+ #include <math.h>
+ 
+ #include "htslib/hts_expr.h"

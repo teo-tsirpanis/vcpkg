@@ -18,7 +18,7 @@ vcpkg_from_github(
         0008-static-sized-arrays.patch
         0009-stddef-h.patch
         0010-hfile.patch
-        0011-pcre2-windows.patch
+        0011-pcre2-feature.patch
         0012-include-strings-h.patch
         0013-unistd-h.patch
         0014-time-h.patch
@@ -39,6 +39,7 @@ endmacro()
 
 enable_feature("bzip2" "bz2")
 enable_feature("lzma" "lzma")
+enable_feature("pcre2" "pcre2")
 
 if("deflate" IN_LIST FEATURES)
     list(APPEND FEATURE_OPTIONS "--with-libdeflate")
