@@ -25,6 +25,7 @@ vcpkg_from_github(
         0016-cli-patches.patch
         0017-dll.patch
         0018-hts-os.patch
+        0019-dirent.patch
 )
 
 set(FEATURE_OPTIONS "")

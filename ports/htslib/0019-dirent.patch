@@ -1,0 +1,24 @@
+diff --git a/cram/cram_io.c b/cram/cram_io.c
+index 75c10bc..0b69797 100644
+--- a/cram/cram_io.c
++++ b/cram/cram_io.c
+@@ -47,6 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include <assert.h>
+ #include <stdlib.h>
+ #include <string.h>
++#include <dirent.h>
+ #include <zlib.h>
+ #ifdef HAVE_LIBBZ2
+ #include <bzlib.h>
+diff --git a/cram/open_trace_file.c b/cram/open_trace_file.c
+index 00534af..69c1662 100644
+--- a/cram/open_trace_file.c
++++ b/cram/open_trace_file.c
+@@ -68,6 +68,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ #include <stdio.h>
+ #include <string.h>
+ #include <limits.h>
++#include <dirent.h>
+ #include <errno.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
