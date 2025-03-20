@@ -51,6 +51,13 @@ endif()
 
 if (VCPKG_TARGET_IS_WINDOWS AND NOT VCPKG_TARGET_IS_MINGW)
     list(APPEND FEATURE_OPTIONS "--with-external-getopt")
+    # Get gendef tool.
+    vcpkg_acquire_msys(MSYS_ROOT
+        NO_DEFAULT_PACKAGES
+        DIRECT_PACKAGES
+            "https://mirror.msys2.org/mingw/mingw32/mingw-w64-i686-tools-git-12.0.0.r576.g49111ba98-1-any.pkg.tar.zst"
+            485ceba95124d1aa3086b103a71cb0c456eca6bc485d2f7694d10f668d4c2c046183b7b8c5e27333171ee2a6e8ca4de49adb4d7c6c4d05cbc0f7e28b3ad7728c)
+    vcpkg_add_to_path("${MSYS_ROOT}/mingw32/bin")
 endif()
 
 vcpkg_configure_make(
