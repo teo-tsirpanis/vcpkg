@@ -1,0 +1,261 @@
+diff --git a/annot-tsv.c b/annot-tsv.c
+index 494c437..6a08104 100644
+--- a/annot-tsv.c
++++ b/annot-tsv.c
+@@ -39,6 +39,7 @@
+ #include <string.h>
+ #include "htslib/hts.h"
+ #include "htslib/hts_defs.h"
++#include "htslib/hts_os.h"
+ #include "htslib/khash_str2int.h"
+ #include "htslib/kstring.h"
+ #include "htslib/kseq.h"
+diff --git a/bcf_sr_sort.c b/bcf_sr_sort.c
+index 01e98bb..f50eef8 100644
+--- a/bcf_sr_sort.c
++++ b/bcf_sr_sort.c
+@@ -29,6 +29,7 @@
+ #include <assert.h>
+ 
+ #include "bcf_sr_sort.h"
++#include "htslib/hts_os.h"
+ #include "htslib/khash_str2int.h"
+ #include "htslib/kbitset.h"
+ 
+diff --git a/bgzf.c b/bgzf.c
+index 8092c7b..5dd5921 100644
+--- a/bgzf.c
++++ b/bgzf.c
+@@ -46,6 +46,7 @@
+ #include "htslib/hfile.h"
+ #include "htslib/thread_pool.h"
+ #include "htslib/hts_endian.h"
++#include "htslib/hts_os.h"
+ #include "cram/pooled_alloc.h"
+ #include "hts_internal.h"
+ 
+diff --git a/bgzip.c b/bgzip.c
+index 687b29d..8e8549d 100644
+--- a/bgzip.c
++++ b/bgzip.c
+@@ -38,6 +38,7 @@
+ #include <time.h>
+ #include "htslib/bgzf.h"
+ #include "htslib/hts.h"
++#include "htslib/hts_os.h"
+ #include "htslib/hfile.h"
+ 
+ #ifdef _WIN32
+diff --git a/cram/os.h b/cram/os.h
+index 1f39887..540b4ed 100644
+--- a/cram/os.h
++++ b/cram/os.h
+@@ -180,9 +180,12 @@ static inline uint16_t le_int2(uint16_t x) {
+  * Windows
+  */
+ #if defined(_MSC_VER)
++#include <Windows.h>
+ #define popen _popen
+ #define pclose _pclose
+ #define ftruncate(fd,len) _chsize(fd,len)
++#define strncasecmp _strnicmp
++#define usleep(x) Sleep((x)/1000)
+ #endif
+ 
+ 
+@@ -202,4 +205,10 @@ static inline uint16_t le_int2(uint16_t x) {
+ }
+ #endif
+ 
++/* MSVC does not provide ssize_t in its <sys/types.h>. This ensures the type
++   is available (unless suppressed by defining HTS_NO_SSIZE_T first). */
++#if defined _MSC_VER && defined _INTPTR_T_DEFINED && !defined _SSIZE_T_DEFINED && !defined HTS_NO_SSIZE_T && !defined ssize_t
++#define ssize_t intptr_t
++#endif
++
+ #endif /* CRAM_OS_H */
+diff --git a/faidx.c b/faidx.c
+index ed39c0c..9c2014c 100644
+--- a/faidx.c
++++ b/faidx.c
+@@ -39,6 +39,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #include "htslib/bgzf.h"
+ #include "htslib/faidx.h"
+ #include "htslib/hfile.h"
++#include "htslib/hts_os.h"
+ #include "htslib/khash.h"
+ #include "htslib/kstring.h"
+ #include "hts_internal.h"
+diff --git a/hfile.c b/hfile.c
+index 552b717..12068a1 100644
+--- a/hfile.c
++++ b/hfile.c
+@@ -43,6 +43,7 @@ DEALINGS IN THE SOFTWARE.  */
+ 
+ #include "htslib/hfile.h"
+ #include "hfile_internal.h"
++#include "htslib/hts_os.h"
+ #include "htslib/kstring.h"
+ 
+ #ifndef ENOTSUP
+@@ -516,7 +517,7 @@ void hclose_abruptly(hFILE *fp)
+ #include <sys/stat.h>
+ #define HAVE_STRUCT_STAT_ST_BLKSIZE
+ #else
+-#include <winsock2.h>
++// Windows.h is included in htslib/hts_os.h
+ #define HAVE_CLOSESOCKET
+ #define HAVE_SETMODE
+ #endif
+diff --git a/hfile_internal.h b/hfile_internal.h
+index 2e365ae..aca09bd 100644
+--- a/hfile_internal.h
++++ b/hfile_internal.h
+@@ -28,6 +28,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <stddef.h>
+ 
+ #include "htslib/hts_defs.h"
++#include "htslib/hts_os.h"
+ #include "htslib/hfile.h"
+ 
+ #include "textutils_internal.h"
+diff --git a/htslib/hts_os.h b/htslib/hts_os.h
+index c715b06..350fce7 100644
+--- a/htslib/hts_os.h
++++ b/htslib/hts_os.h
+@@ -73,8 +73,15 @@ extern int is_cygpty(int fd);
+ 
+ #ifdef _WIN32
+ #include <stdlib.h>
++#include <Windows.h>
+ #define srandom srand
+ #define random rand
++#define usleep(x) Sleep((x)/1000)
++#endif
++
++#ifdef _MSC_VER
++#define strcasecmp _stricmp
++#define strncasecmp _strnicmp
+ #endif
+ 
+ /* MSVC does not provide ssize_t in its <sys/types.h>. This ensures the type
+diff --git a/kstring.c b/kstring.c
+index 9a6142e..e9a56e9 100644
+--- a/kstring.c
++++ b/kstring.c
+@@ -34,6 +34,7 @@
+ #include <stdint.h>
+ #include <math.h>
+ #include "htslib/kstring.h"
++#include "htslib/hts_os.h"
+ 
+ int kputd(double d, kstring_t *s) {
+ 	int len = 0;
+diff --git a/Makefile b/Makefile
+index ef9b5a9..daac5b2 100644
+--- a/Makefile
++++ b/Makefile
+@@ -257,7 +257,7 @@ cram_open_trace_file_h = cram/open_trace_file.h cram/mFILE.h
+ bcf_sr_sort_h = bcf_sr_sort.h $(htslib_synced_bcf_reader_h) $(htslib_kbitset_h)
+ fuzz_settings_h = fuzz_settings.h
+ header_h = header.h cram/string_alloc.h cram/pooled_alloc.h $(htslib_khash_h) $(htslib_kstring_h) $(htslib_sam_h)
+-hfile_internal_h = hfile_internal.h $(htslib_hts_defs_h) $(htslib_hfile_h) $(textutils_internal_h)
++hfile_internal_h = hfile_internal.h $(htslib_hts_defs_h) $(htslib_hts_os_h) $(htslib_hfile_h) $(textutils_internal_h)
+ hts_internal_h = hts_internal.h $(htslib_hts_h) $(textutils_internal_h)
+ hts_time_funcs_h = hts_time_funcs.h
+ sam_internal_h = sam_internal.h $(htslib_sam_h)
+@@ -456,11 +456,11 @@ hts-object-files: $(LIBHTS_OBJS)
+ 	$(CC) -shared $(LDFLAGS) -o $@ $< hts.dll.a $(LIBS)
+ 
+ 
+-bgzf.o bgzf.pico: bgzf.c config.h $(htslib_hts_h) $(htslib_bgzf_h) $(htslib_hfile_h) $(htslib_thread_pool_h) $(htslib_hts_endian_h) cram/pooled_alloc.h $(hts_internal_h) $(htslib_khash_h)
++bgzf.o bgzf.pico: bgzf.c config.h $(htslib_hts_h) $(htslib_bgzf_h) $(htslib_hfile_h) $(htslib_thread_pool_h) $(htslib_hts_endian_h) $(htslib_hts_os_h) cram/pooled_alloc.h $(hts_internal_h) $(htslib_khash_h)
+ errmod.o errmod.pico: errmod.c config.h $(htslib_hts_h) $(htslib_ksort_h) $(htslib_hts_os_h)
+-kstring.o kstring.pico: kstring.c config.h $(htslib_kstring_h)
++kstring.o kstring.pico: kstring.c config.h $(htslib_kstring_h) $(htslib_hts_os_h)
+ header.o header.pico: header.c config.h $(textutils_internal_h) $(header_h)
+-hfile.o hfile.pico: hfile.c config.h $(htslib_hfile_h) $(hfile_internal_h) $(htslib_kstring_h) $(hts_internal_h) $(htslib_khash_h)
++hfile.o hfile.pico: hfile.c config.h $(htslib_hfile_h) $(hfile_internal_h) $(htslib_hts_os_h) $(htslib_kstring_h) $(hts_internal_h) $(htslib_khash_h)
+ hfile_gcs.o hfile_gcs.pico: hfile_gcs.c config.h $(htslib_hts_h) $(htslib_kstring_h) $(hfile_internal_h)
+ hfile_libcurl.o hfile_libcurl.pico: hfile_libcurl.c config.h $(hfile_internal_h) $(htslib_hts_h) $(htslib_kstring_h) $(htslib_khash_h)
+ hfile_s3_write.o hfile_s3_write.pico: hfile_s3_write.c config.h $(hfile_internal_h) $(htslib_hts_h) $(htslib_kstring_h) $(htslib_khash_h)
+@@ -468,13 +468,13 @@ hfile_s3.o hfile_s3.pico: hfile_s3.c config.h $(hfile_internal_h) $(htslib_hts_h
+ hts.o hts.pico: hts.c config.h os/lzma_stub.h $(htslib_hts_h) $(htslib_bgzf_h) $(cram_h) $(htslib_hfile_h) $(htslib_hts_endian_h) version.h config_vars.h $(hts_internal_h) $(hfile_internal_h) $(sam_internal_h) $(htslib_hts_expr_h) $(htslib_hts_os_h) $(htslib_khash_h) $(htslib_kseq_h) $(htslib_ksort_h) $(htslib_tbx_h) $(htscodecs_htscodecs_h)
+ hts_expr.o hts_expr.pico: hts_expr.c config.h $(htslib_hts_expr_h) $(htslib_hts_log_h) $(textutils_internal_h)
+ hts_os.o hts_os.pico: hts_os.c config.h $(htslib_hts_defs_h) os/rand.c
+-vcf.o vcf.pico: vcf.c config.h $(fuzz_settings_h) $(htslib_vcf_h) $(htslib_bgzf_h) $(htslib_tbx_h) $(htslib_hfile_h) $(hts_internal_h) $(htslib_khash_str2int_h) $(htslib_kstring_h) $(htslib_sam_h) $(htslib_khash_h) $(htslib_kseq_h) $(htslib_hts_endian_h)
+-sam.o sam.pico: sam.c config.h $(fuzz_settings_h) $(htslib_hts_defs_h) $(htslib_sam_h) $(htslib_bgzf_h) $(cram_h) $(hts_internal_h) $(sam_internal_h) $(htslib_hfile_h) $(htslib_hts_endian_h) $(htslib_hts_expr_h) $(header_h) $(htslib_khash_h) $(htslib_kseq_h) $(htslib_kstring_h)
++vcf.o vcf.pico: vcf.c config.h $(fuzz_settings_h) $(htslib_vcf_h) $(htslib_bgzf_h) $(htslib_tbx_h) $(htslib_hfile_h) $(hts_internal_h) $(htslib_khash_str2int_h) $(htslib_kstring_h) $(htslib_sam_h) $(htslib_khash_h) $(htslib_kseq_h) $(htslib_hts_endian_h) $(htslib_hts_os_h)
++sam.o sam.pico: sam.c config.h $(fuzz_settings_h) $(htslib_hts_defs_h) $(htslib_sam_h) $(htslib_bgzf_h) $(cram_h) $(hts_internal_h) $(sam_internal_h) $(htslib_hfile_h) $(htslib_hts_endian_h) $(htslib_hts_expr_h) $(htslib_hts_os_h) $(header_h) $(htslib_khash_h) $(htslib_kseq_h) $(htslib_kstring_h)
+ sam_mods.o sam_mods.pico: sam_mods.c config.h $(htslib_sam_h) $(textutils_internal_h)
+ simd.o simd.pico: simd.c config.h $(htslib_sam_h) $(sam_internal_h)
+ tbx.o tbx.pico: tbx.c config.h $(htslib_tbx_h) $(htslib_bgzf_h) $(htslib_hts_endian_h) $(hts_internal_h) $(htslib_khash_h)
+-faidx.o faidx.pico: faidx.c config.h $(htslib_bgzf_h) $(htslib_faidx_h) $(htslib_hfile_h) $(htslib_khash_h) $(htslib_kstring_h) $(hts_internal_h)
+-bcf_sr_sort.o bcf_sr_sort.pico: bcf_sr_sort.c config.h $(bcf_sr_sort_h) $(htslib_khash_str2int_h) $(htslib_kbitset_h)
++faidx.o faidx.pico: faidx.c config.h $(htslib_bgzf_h) $(htslib_faidx_h) $(htslib_hfile_h) $(htslib_hts_os_h) $(htslib_khash_h) $(htslib_kstring_h) $(hts_internal_h)
++bcf_sr_sort.o bcf_sr_sort.pico: bcf_sr_sort.c config.h $(bcf_sr_sort_h) $(htslib_hts_os_h) $(htslib_khash_str2int_h) $(htslib_kbitset_h)
+ synced_bcf_reader.o synced_bcf_reader.pico: synced_bcf_reader.c config.h $(htslib_synced_bcf_reader_h) $(htslib_kseq_h) $(htslib_khash_str2int_h) $(htslib_bgzf_h) $(htslib_thread_pool_h) $(bcf_sr_sort_h)
+ vcf_sweep.o vcf_sweep.pico: vcf_sweep.c config.h $(htslib_vcf_sweep_h) $(htslib_bgzf_h)
+ vcfutils.o vcfutils.pico: vcfutils.c config.h $(htslib_vcfutils_h) $(htslib_kbitset_h)
+@@ -533,10 +533,10 @@ htsfile: htsfile.o libhts.a
+ tabix: tabix.o libhts.a
+ 	$(CC) $(LDFLAGS) -o $@ tabix.o libhts.a $(LIBS) $(PTHREAD)
+ 
+-annot-tsv.o: annot-tsv.c config.h $(htslib_hts_h) $(htslib_hts_defs_h) $(htslib_khash_str2int_h) $(htslib_kstring_h) $(htslib_kseq_h) $(htslib_bgzf_h) $(htslib_regidx_h) $(textutils_internal_h)
+-bgzip.o: bgzip.c config.h $(htslib_bgzf_h) $(htslib_hts_h) $(htslib_hfile_h)
++annot-tsv.o: annot-tsv.c config.h $(htslib_hts_h) $(htslib_hts_defs_h) $(htslib_hts_os_h) $(htslib_khash_str2int_h) $(htslib_kstring_h) $(htslib_kseq_h) $(htslib_bgzf_h) $(htslib_regidx_h) $(textutils_internal_h)
++bgzip.o: bgzip.c config.h $(htslib_bgzf_h) $(htslib_hts_h) $(htslib_hts_os_h) $(htslib_hfile_h)
+ htsfile.o: htsfile.c config.h $(htslib_hfile_h) $(htslib_hts_h) $(htslib_sam_h) $(htslib_vcf_h)
+-tabix.o: tabix.c config.h $(htslib_tbx_h) $(htslib_sam_h) $(htslib_vcf_h) $(htslib_kseq_h) $(htslib_bgzf_h) $(htslib_hts_h) $(htslib_regidx_h) $(htslib_hts_defs_h) $(htslib_hts_log_h) $(htslib_thread_pool_h)
++tabix.o: tabix.c config.h $(htslib_tbx_h) $(htslib_sam_h) $(htslib_vcf_h) $(htslib_kseq_h) $(htslib_bgzf_h) $(htslib_hts_h) $(htslib_hts_os_h) $(htslib_regidx_h) $(htslib_hts_defs_h) $(htslib_hts_log_h) $(htslib_thread_pool_h)
+ 
+ # Runes to check that the htscodecs submodule is present
+ ifdef HTSCODECS_SOURCES
+diff --git a/sam.c b/sam.c
+index 7e58da6..92c0607 100644
+--- a/sam.c
++++ b/sam.c
+@@ -54,6 +54,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #include "htslib/hfile.h"
+ #include "htslib/hts_endian.h"
+ #include "htslib/hts_expr.h"
++#include "htslib/hts_os.h"
+ #include "header.h"
+ 
+ #include "htslib/khash.h"
+diff --git a/synced_bcf_reader.c b/synced_bcf_reader.c
+index 1835ea2..f116997 100644
+--- a/synced_bcf_reader.c
++++ b/synced_bcf_reader.c
+@@ -36,6 +36,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #include <errno.h>
+ #include <sys/stat.h>
+ #include "htslib/synced_bcf_reader.h"
++#include "htslib/hts_os.h"
+ #include "htslib/kseq.h"
+ #include "htslib/khash_str2int.h"
+ #include "htslib/bgzf.h"
+diff --git a/tabix.c b/tabix.c
+index 2fb5d4b..2683d26 100644
+--- a/tabix.c
++++ b/tabix.c
+@@ -43,6 +43,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #include "htslib/hts.h"
+ #include "htslib/regidx.h"
+ #include "htslib/hts_defs.h"
++#include "htslib/hts_os.h"
+ #include "htslib/hts_log.h"
+ #include "htslib/thread_pool.h"
+ 
+diff --git a/vcf.c b/vcf.c
+index 105c753..2e2a952 100644
+--- a/vcf.c
++++ b/vcf.c
+@@ -47,6 +47,7 @@ DEALINGS IN THE SOFTWARE.  */
+ #include "htslib/hfile.h"
+ #include "hts_internal.h"
+ #include "htslib/hts_endian.h"
++#include "htslib/hts_os.h"
+ #include "htslib/khash_str2int.h"
+ #include "htslib/kstring.h"
+ #include "htslib/sam.h"

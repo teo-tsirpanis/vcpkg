@@ -14,7 +14,6 @@ vcpkg_from_github(
         0003-fix-compile-errors.patch
         0004-ssize-max.patch
         0006-pthread.patch
-        0007-ssize-t.patch
         0008-static-sized-arrays.patch
         0009-stddef-h.patch
         0010-hfile.patch
@@ -25,6 +24,7 @@ vcpkg_from_github(
         0015-r-ok.patch
         0016-cli-patches.patch
         0017-dll.patch
+        0018-hts-os.patch
 )
 
 set(FEATURE_OPTIONS "")
