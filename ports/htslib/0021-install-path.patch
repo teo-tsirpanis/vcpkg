@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index daac5b2..f1098c4 100644
+--- a/Makefile
++++ b/Makefile
+@@ -56,7 +56,7 @@ man7dir     = $(mandir)/man7
+ pkgconfigdir= $(libdir)/pkgconfig
+ 
+ MKDIR_P = mkdir -p
+-INSTALL = install -p
++INSTALL = /usr/bin/install -p
+ INSTALL_DATA    = $(INSTALL) -m 644
+ INSTALL_DIR     = $(MKDIR_P) -m 755
+ LIB_PERM        = 644

@@ -27,6 +27,7 @@ vcpkg_from_github(
         0018-hts-os.patch
         0019-dirent.patch
         0020-external-getopt.patch
+        0021-install-path.patch
 )
 
 set(FEATURE_OPTIONS "")
